@@ -1,0 +1,18 @@
+{
+  "name": "line-todo-list",
+  "version": "1.0.0",
+  "description": "The todo application with LINE API support.",
+  "main": "app.js",
+  "author": "Krit B. <Krit.b@taskworld.com>",
+  "license": "MIT",
+  "repository": {
+    "url": "https://zestzero@bitbucket.org/zestzero/line-todolist.git"
+  },
+  "scripts": {
+    "dev": "export PORT=3000 && npx nodemon app.js",
+    "start": "export NODE_ENV=production && node app.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
