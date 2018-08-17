@@ -10,9 +10,11 @@
   },
   "scripts": {
     "dev": "export PORT=3000 && npx nodemon app.js",
-    "start": "export NODE_ENV=production && node app.js"
+    "start": "node app.js"
   },
   "dependencies": {
+    "@line/bot-sdk": "^6.2.1",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3"
   }
 }

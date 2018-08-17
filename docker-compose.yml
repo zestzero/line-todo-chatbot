@@ -1,18 +1,10 @@
-web:
-  build: .
-  command: 'bash -c ''npm install; node app.js'''
-  working_dir: /app/user
-  environment:
-    PORT: 3000
-  ports:
-    - '3000:3000'
-shell:
-  build: .
-  command: bash
-  working_dir: /app/user
-  environment:
-    PORT: 3000
-  ports:
-    - '3000:3000'
-  volumes:
-    - '.:/app/user'
+version: '2'
+services:
+  web:
+    build: .
+    command: npm run start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"

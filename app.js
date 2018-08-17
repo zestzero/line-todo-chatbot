@@ -1,4 +1,4 @@
-'use strict';
+require('dotenv').config()
 
 const line = require('@line/bot-sdk');
 const express = require('express');
@@ -10,14 +10,11 @@ const config = {
 };
 
 const client = new line.Client(config);
-const app = express();
 
 app.get('/', function (req, res) {
   res.send("Hello from container land!");
 });
 
-// register a webhook handler with middleware
-// about the middleware, please refer to doc
 app.post('/callback', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
@@ -45,5 +42,5 @@ function handleEvent(event) {
 
 const server = app.listen(process.env.PORT, function () {
   const port = server.address().port;
-  console.log('Example app listening at http:/localhost:%s', port);
+  console.log('Example app listening at http://localhost:%s', port);
 });

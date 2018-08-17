@@ -1,6 +1,5 @@
 {
   "name": "line-todo-list",
   "description": "The todo application with LINE API support.",
-  "image": "heroku/nodejs",
-  "addons": []
+  "image": "heroku/nodejs"
 }
