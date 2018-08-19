@@ -9,12 +9,27 @@
     "url": "https://zestzero@bitbucket.org/zestzero/line-todolist.git"
   },
   "scripts": {
-    "dev": "export PORT=3000 && npx nodemon app.js",
+    "dev": "export PORT=3000 && npx nodemon --config nodemon.json app.js",
+    "test": "npx mocha \"./{,!(node_modules)/**/}*.test.js\"",
     "start": "node app.js"
   },
   "dependencies": {
     "@line/bot-sdk": "^6.2.1",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.2.9"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^5.4.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.1.5"
   }
 }
