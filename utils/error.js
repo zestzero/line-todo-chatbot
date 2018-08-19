@@ -1,15 +1,8 @@
-exports.handler = (func) => (req, res) => {
+exports.apiErrorHandler = (req, res, next) => {
   try {
-    func(req, res)
+    next()
   } catch (err) {
     console.error(err)
-    res.status(500)
-    return { error: err }
-  }
-}
-
-exports.ERROR_MSG = {
-  TASK: {
-    NOT_FOUND: 'Task not found!'
+    res.status(500).send('Internal error!')
   }
 }

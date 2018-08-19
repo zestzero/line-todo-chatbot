@@ -1,11 +1,15 @@
 // Ref URL: https://developers.line.me/en/reference/messaging-api/#webhook-event-objects
 // event.source.tyoe && event.source.userId
 
-exports.getEventHandler = (client) => {
-  return function handleEvent (event) {
-    if (event.type !== 'message' || event.message.type !== 'text') return null
-
-    const echo = { type: 'text', text: event.message.text }
-    return client.replyMessage(event.replyToken, echo)
+exports.getEventHandler = (client) => (event) => {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null)
   }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text }
+
+  // use reply API
+  return client.replyMessage(event.replyToken, echo)
 }

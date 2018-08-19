@@ -1,11 +1,15 @@
 const _ = require('lodash')
 const TaskDB = require('../db/task')
-const { ERROR_MSG } = require('../utils/error')
+const { ERROR_MSG } = require('../utils/constants')
 const { getCompactTask } = require('../utils/task')
 
 async function validateTask (taskId, callback) {
-  const existTask = await TaskDB.findTaskById({ taskId })
-  if (_.isEmpty(existTask)) return { error: ERROR_MSG.TASK.NOT_FOUND }
+  try {
+    const existTask = await TaskDB.findTaskById({ taskId })
+    if (_.isEmpty(existTask)) return { error: ERROR_MSG.TASK.NOT_FOUND }
+  } catch (err) {
+    return { error: err.message }
+  }
 
   return { result: await callback }
 }
