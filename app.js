@@ -12,5 +12,5 @@ MongoController.init({ mongodbUri: process.env.MONGODB_URI })(function () {
 
 const server = app.listen(process.env.PORT, function () {
   const port = server.address().port
-  console.log('Example app listening at http://localhost:%s', port)
+  console.log('Listening at http://localhost:%s', port)
 })
