@@ -12,7 +12,7 @@ describe('Date helper', function () {
 
     it('should return correct result from given date and time', function () {
       const actual = getFormatDateTime('3/5/18', '13:00')
-      expect(actual.format()).to.equal('2018-05-03T13:00:00+07:00')
+      expect(actual).to.equal('2018-05-03T13:00:00+07:00')
     })
   })
 })

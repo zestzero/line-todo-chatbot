@@ -1,4 +1,5 @@
 const { parseAction } = require('./actions')
+const { createTask } = require('./task')
 
 // Ref URL: https://developers.line.me/en/reference/messaging-api/#webhook-event-objects
 // event.source.tyoe && event.source.userId
@@ -10,10 +11,18 @@ exports.getEventHandler = (client) => async (event) => {
   }
 
   // Parse text to action
-  parseAction(event.message.text)
+  const { error, content, dateTime } = parseAction(event.message.text)
+  let text = ''
+
+  if (error) {
+    text = error
+  } else {
+    const result = await createTask({ ownerId: event.source.userId, content, dateTime })
+    text = `created task: ${result.id}`
+  }
 
   // create a echoing text message
-  const echo = { type: 'text', text: event.message.text }
+  const echo = { type: 'text', text }
 
   // use reply API
   return client.replyMessage(event.replyToken, echo)

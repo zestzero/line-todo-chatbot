@@ -15,8 +15,8 @@ async function validateTask (taskId, callback) {
   return { result: await callback }
 }
 
-exports.createTask = async ({ ownerId, content }) => {
-  const task = await TaskDB.createTask({ ownerId, content })
+exports.createTask = async ({ ownerId, content, dateTime }) => {
+  const task = await TaskDB.createTask({ ownerId, content, dateTime })
   return getCompactTask(task)
 }
 
