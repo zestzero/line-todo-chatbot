@@ -1,8 +1,8 @@
-
+const moment = require('moment')
 const chai = require('chai')
 const expect = chai.expect
 const TaskService = require('./task')
-const { dbUp, reset, dbDown } = require('../utils/dbtest')
+const { dbUp, reset, dbDown } = require('../utils/db-helper')
 
 describe('TaskService Tests', function () {
   before(dbUp)
@@ -10,7 +10,11 @@ describe('TaskService Tests', function () {
 
   describe('createTask', function () {
     it('should create a task and return create task correctly', async function () {
-      const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
+      const task = await TaskService.createTask({
+        ownerId: 'owner1',
+        content: 'task1',
+        dateTime: moment('2018-08-20')
+      })
       const actualTask = await TaskService.getTaskById({ taskId: task.id })
 
       expect(actualTask.ownerId).to.equal('owner1')
@@ -24,7 +28,9 @@ describe('TaskService Tests', function () {
       const updatedTask = await TaskService.updateTask({
         taskId: '53cb6b9b4f4ddef1ad47f943',
         content: 'newtask',
-        order: 1
+        order: 1,
+        date: '8/2/18',
+        time: '10:00'
       })
 
       expect(updatedTask.error).to.not.equal(undefined)
@@ -35,11 +41,14 @@ describe('TaskService Tests', function () {
       const updatedTask = await TaskService.updateTask({
         taskId: task.id,
         content: 'newtask',
-        order: 1
+        order: 1,
+        date: '8/2/18',
+        time: '10:00'
       })
 
       expect(updatedTask.content).to.equal('newtask')
       expect(updatedTask.order).to.equal(1)
+      expect(moment(updatedTask.dateTime).format('DD/MM/YY HH:mm')).to.equal('08/02/18 10:00')
     })
   })
 

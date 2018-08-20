@@ -20,8 +20,19 @@ const taskSchema = new mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false
+  },
+  date_time: {
+    type: Date
+  },
+  create_date: {
+    type: Date,
+    default: new Date()
+  },
+  updated_date: {
+    type: Date,
+    default: new Date()
   }
-}, { timestamps: { createdAt: 'created_date', updatedAt: 'updated_date' } })
+})
 
 const Task = mongoose.model('Task', taskSchema)
 module.exports = Task

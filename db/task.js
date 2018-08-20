@@ -1,11 +1,11 @@
 const TaskSchema = require('./schemas/task')
 
-exports.createTask = async ({ ownerId, content }) => {
-  return TaskSchema.create({ owner_id: ownerId, content })
+exports.createTask = async ({ ownerId, content, dateTime }) => {
+  return TaskSchema.create({ owner_id: ownerId, content, date_time: dateTime })
 }
 
-exports.updateTask = async ({ taskId, content, order }) => {
-  return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { content, order } }, { new: true })
+exports.updateTask = async ({ taskId }, updated) => {
+  return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { ...updated } }, { new: true })
 }
 
 exports.deleteTask = async ({ taskId }) => {

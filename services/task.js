@@ -2,6 +2,7 @@ const _ = require('lodash')
 const TaskDB = require('../db/task')
 const { ERROR_MSG } = require('../utils/constants')
 const { getCompactTask } = require('../utils/task')
+const { getFormatDateTime } = require('../utils/date')
 
 async function validateTask (taskId, callback) {
   try {
@@ -29,8 +30,11 @@ exports.getTaskById = async ({ taskId }) => {
   return getCompactTask(task)
 }
 
-exports.updateTask = async ({ taskId, content, order }) => {
-  const { result, error } = await validateTask(taskId, TaskDB.updateTask({ taskId, content, order }))
+exports.updateTask = async ({ taskId, content, order, date, time }) => {
+  const dateTime = getFormatDateTime(date, time)
+  const { result, error } = await validateTask(
+    taskId, TaskDB.updateTask({ taskId }, { content, order, date_time: dateTime })
+  )
   if (error) return { error }
   return getCompactTask(result)
 }
