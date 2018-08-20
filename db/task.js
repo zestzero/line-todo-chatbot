@@ -1,7 +1,8 @@
 const TaskSchema = require('./schemas/task')
 
 exports.createTask = async ({ ownerId, content, dateTime }) => {
-  return TaskSchema.create({ owner_id: ownerId, content, date_time: dateTime })
+  const order = await TaskSchema.count({ owner_id: ownerId }).lean()
+  return TaskSchema.create({ owner_id: ownerId, content, date_time: dateTime, order })
 }
 
 exports.updateTask = async ({ taskId }, updated) => {

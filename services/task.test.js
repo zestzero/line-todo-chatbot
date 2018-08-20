@@ -20,6 +20,30 @@ describe('TaskService Tests', function () {
       expect(actualTask.ownerId).to.equal('owner1')
       expect(actualTask.content).to.equal('task1')
     })
+
+    it('should create a task with order correctly', async function () {
+      const taskOne = await TaskService.createTask({
+        ownerId: 'owner1',
+        content: 'task1',
+        dateTime: moment('2018-08-20')
+      })
+
+      const taskTwo = await TaskService.createTask({
+        ownerId: 'owner1',
+        content: 'task2',
+        dateTime: moment('2018-08-20')
+      })
+
+      const taskThree = await TaskService.createTask({
+        ownerId: 'owner1',
+        content: 'task3',
+        dateTime: moment('2018-08-20')
+      })
+
+      expect(taskOne.order).to.equal(0)
+      expect(taskTwo.order).to.equal(1)
+      expect(taskThree.order).to.equal(2)
+    })
   })
 
   describe('updateTask', function () {
@@ -97,7 +121,6 @@ describe('TaskService Tests', function () {
       await TaskService.createTask({ ownerId: 'owner2', content: 'task1' })
 
       const tasks = await TaskService.getTasks({ ownerId: 'owner1' })
-
       expect(tasks.length).to.equal(3)
     })
 
