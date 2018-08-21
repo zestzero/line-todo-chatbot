@@ -33,7 +33,8 @@ exports.parseAction = (text) => {
     if (date && time) {
       return {
         content: actions[0],
-        dateTime: getFormatDateTime(date, time)
+        date,
+        time
       }
     }
   }

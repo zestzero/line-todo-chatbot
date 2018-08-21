@@ -13,7 +13,8 @@ describe('TaskService Tests', function () {
       const task = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task1',
-        dateTime: moment('2018-08-20')
+        date: '2/8/18',
+        time: '12:00'
       })
       const actualTask = await TaskService.getTaskById({ taskId: task.id })
 
@@ -25,19 +26,22 @@ describe('TaskService Tests', function () {
       const taskOne = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task1',
-        dateTime: moment('2018-08-20')
+        date: '2/8/18',
+        time: '12:00'
       })
 
       const taskTwo = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task2',
-        dateTime: moment('2018-08-20')
+        date: '2/8/18',
+        time: '12:00'
       })
 
       const taskThree = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task3',
-        dateTime: moment('2018-08-20')
+        date: '2/8/18',
+        time: '12:00'
       })
 
       expect(taskOne.order).to.equal(0)
@@ -73,6 +77,17 @@ describe('TaskService Tests', function () {
       expect(updatedTask.content).to.equal('newtask')
       expect(updatedTask.order).to.equal(1)
       expect(moment(updatedTask.dateTime).format('DD/MM/YY HH:mm')).to.equal('08/02/18 10:00')
+    })
+
+    it('should update only order of a task', async function () {
+      const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
+      const updatedTask = await TaskService.updateTask({
+        taskId: task.id,
+        order: 5
+      })
+
+      expect(updatedTask.content).to.equal('task1')
+      expect(updatedTask.order).to.equal(5)
     })
   })
 

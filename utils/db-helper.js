@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const TaskDB = require('../db/schemas/task')
+const TaskModel = require('../models/schemas/task')
 
 exports.dbUp = (done) => {
   mongoose.connect('mongodb://localhost/testDatabase', { useNewUrlParser: true })
@@ -11,7 +11,7 @@ exports.dbUp = (done) => {
 }
 
 exports.reset = async () => {
-  await TaskDB.remove({})
+  await TaskModel.remove({})
 }
 
 exports.dbDown = (done) => {
