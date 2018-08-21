@@ -1,4 +1,4 @@
-const { parseAction } = require('./actions')
+const { parseAction, isEditMode } = require('./actions')
 const { createTask } = require('./task')
 
 // Ref URL: https://developers.line.me/en/reference/messaging-api/#webhook-event-objects
@@ -8,6 +8,11 @@ exports.getEventHandler = (client) => async (event) => {
   if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
     return Promise.resolve(null)
+  }
+
+  if (isEditMode(event.message.text)) {
+    const echo = { type: 'text', text: 'line://app/1601405149-MYeKOvk2' }
+    return client.replyMessage(event.replyToken, echo)
   }
 
   // Parse text to action

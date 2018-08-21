@@ -1,7 +1,6 @@
 const _ = require('lodash')
 const moment = require('moment')
 const { DATE_OFFSET, ERROR_MSG } = require('../utils/constants')
-const { getFormatDateTime } = require('../utils/date')
 
 function handleDate (date) {
   const isValidDateFormat = (date) => RegExp(/^([1-9]|[12][0-9]|3[01])(\/)(?:([1-9]|1[012])(\/)[0-9]{2})$/).test(date)
@@ -39,4 +38,8 @@ exports.parseAction = (text) => {
     }
   }
   return { error: ERROR_MSG.ACTION.INVALID }
+}
+
+exports.isEditMode = (text) => {
+  return text === 'edit'
 }
