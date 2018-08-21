@@ -35,10 +35,10 @@ router.post('/task.create', middlewares, async (req, res) => {
 router.post('/task.update', middlewares, async (req, res) => {
   const schema = Joi.object().keys({
     task_id: Joi.string().alphanum().required(),
-    content: Joi.string().required(),
-    order: Joi.string().required(),
-    date: Joi.string().required(),
-    time: Joi.string().required()
+    content: Joi.string(),
+    order: Joi.string(),
+    date: Joi.string(),
+    time: Joi.string()
   })
   const { error } = Joi.validate(req.body, schema)
   if (error) return res.status(400).json(error.details)
