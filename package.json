@@ -9,7 +9,7 @@
     "url": "https://zestzero@bitbucket.org/zestzero/line-todolist.git"
   },
   "scripts": {
-    "dev": "export PORT=3000 && npx nodemon --config nodemon.json app.js",
+    "dev": "npx nodemon --config nodemon.json app.js",
     "test": "npx mocha \"./{,!(node_modules)/**/}*.test.js\"",
     "start": "node app.js"
   },

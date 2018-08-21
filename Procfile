@@ -1,1 +1,1 @@
-web: npm install; node app.js
+web: yarn; node app.js
