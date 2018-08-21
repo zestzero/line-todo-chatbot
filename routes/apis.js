@@ -45,8 +45,7 @@ router.post('/task.update', middlewares, async (req, res) => {
 
   const task = await TaskService.updateTask({
     taskId: req.body.task_id,
-    content: req.body.content,
-    order: req.body.order
+    ...req.body
   })
   return res.json(task)
 })

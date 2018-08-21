@@ -1,3 +1,4 @@
+exports.DATE_FORMAT = 'D/M/YY'
 exports.DATE_TIME_FORMAT = 'D/M/YY HH:mm'
 
 exports.ERROR_MSG = {

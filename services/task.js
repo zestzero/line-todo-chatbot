@@ -15,7 +15,16 @@ async function validateTask (taskId, callback) {
   return { result: await callback }
 }
 
-exports.createTask = async ({ ownerId, content, dateTime }) => {
+function getOnlyValidUpdate ({ content, order, date, time }) {
+  let update = {}
+  if (content) update.content = content
+  if (order) update.order = order
+  if (date && time) update.date_time = getFormatDateTime(date, time)
+  return update
+}
+
+exports.createTask = async ({ ownerId, content, date, time }) => {
+  const dateTime = getFormatDateTime(date, time)
   const task = await TaskModel.createTask({ ownerId, content, dateTime })
   return getCompactTask(task)
 }
@@ -31,9 +40,9 @@ exports.getTaskById = async ({ taskId }) => {
 }
 
 exports.updateTask = async ({ taskId, content, order, date, time }) => {
-  const dateTime = getFormatDateTime(date, time)
+  const update = getOnlyValidUpdate({ content, order, date, time })
   const { result, error } = await validateTask(
-    taskId, TaskModel.updateTask({ taskId }, { content, order, date_time: dateTime })
+    taskId, TaskModel.updateTask({ taskId }, { ...update })
   )
   if (error) return { error }
   return getCompactTask(result)
