@@ -4,6 +4,8 @@ import { TaskContainer } from "./components/Task";
 import { ErrorMessage } from './components/common';
 import './App.css';
 
+const EXAMPLE_USER_ID = '123412312341231321';
+
 class App extends Component {
   render() {
     return (
@@ -18,7 +20,7 @@ class App extends Component {
             render={(userId) => <TaskContainer userId={userId} />}
             error={(error) => <ErrorMessage header={error.message} />}
           />
-          : <TaskContainer userId={'123412312341231321'} />
+          : <TaskContainer userId={EXAMPLE_USER_ID} />
         }
       </div>
     );

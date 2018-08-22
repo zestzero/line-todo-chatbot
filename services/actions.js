@@ -41,5 +41,5 @@ exports.parseAction = (text) => {
 }
 
 exports.isEditMode = (text) => {
-  return text === 'edit'
+  return text.toLowerCase().trim() === 'edit'
 }
