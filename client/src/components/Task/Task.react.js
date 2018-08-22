@@ -1,29 +1,29 @@
-import moment from 'moment';
+import moment from "moment";
 import React, { Component } from "react";
 import { Segment, Icon } from "semantic-ui-react";
-import './Task.css';
+import "./Task.css";
 
 export default class Task extends Component {
-  state = { editMode: false, content: this.props.content || '' }
+  state = { editMode: false, content: this.props.content || "" };
 
   onEditModeToggle = () => {
-    this.setState(prevState => ({ editMode: !prevState.editMode }))
-  }
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
+  };
 
-  onContentChange = (e) => {
+  onContentChange = e => {
     this.setState({ content: e.target.value });
-  }
+  };
 
-  onSave = (taskId) => () => {
+  onSave = taskId => () => {
     this.onEditModeToggle();
     if (this.props.content !== this.state.content) {
       this.props.onContentSave(taskId, this.state.content);
     }
-  }
+  };
 
   onCancel = () => {
     this.onEditModeToggle();
-  }
+  };
 
   render() {
     const {
@@ -50,7 +50,10 @@ export default class Task extends Component {
           />
         )}
         {this.state.editMode ? (
-          <input value={this.state.content || content} onChange={e => this.onContentChange(e)} />
+          <input
+            value={this.state.content || content}
+            onChange={e => this.onContentChange(e)}
+          />
         ) : (
           <span onClick={() => this.onEditModeToggle()}>{content}</span>
         )}
@@ -60,7 +63,9 @@ export default class Task extends Component {
             <Icon name="undo" onClick={this.onCancel} />
           </React.Fragment>
         ) : null}
-        <div className="Task-time">{moment(dateTime).format('D/M/YY HH:mm')}</div>
+        <div className="Task-time">
+          {moment(dateTime).format("D/M/YY HH:mm")}
+        </div>
       </Segment>
     );
   }

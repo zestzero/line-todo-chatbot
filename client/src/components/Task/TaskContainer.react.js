@@ -6,15 +6,17 @@ import {
   getTasks,
   completeTask,
   importantTask,
-  updateTask
+  updateTask,
 } from "../../services/task";
 import {
   getNormalTask,
   getCompletedTask,
   getImportantTask,
   toggleStateChange,
-  contentChange
+  contentChange,
+  orderChange
 } from "../../utils";
+import { DragDropContext } from 'react-beautiful-dnd';
 
 export default class TaskContainer extends Component {
   state = {
@@ -42,10 +44,20 @@ export default class TaskContainer extends Component {
     this.setState({ tasks }, async () => completeTask(taskId));
   };
 
+  onDragEnd = (param) => {
+    console.log(param);
+    if (!param.destination) return;
+    const orderOffset = param.destination.index - param.source.index;
+    const tasks = orderChange(this.state.tasks, param.draggableId)(orderOffset);
+    this.setState({ tasks }); //, async () => updateTask(param.draggableId, { order: }))
+  }
+
   renderImportantTasks = () => {
     const tasks = getImportantTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
+        listId="important-1"
+        isDropDisabled
         titleColor="red"
         title={"Important"}
         tasks={tasks}
@@ -59,6 +71,7 @@ export default class TaskContainer extends Component {
     const tasks = getNormalTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
+        listId="normal-1"
         tasks={tasks}
         onImportantTask={this.onImportantTask}
         onCompleteTask={this.onCompleteTask}
@@ -71,6 +84,8 @@ export default class TaskContainer extends Component {
     const tasks = getCompletedTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
+        listId="completed-1"
+        isDropDisabled
         titleColor="teal"
         title={"Completed"}
         tasks={tasks}
@@ -83,11 +98,13 @@ export default class TaskContainer extends Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <SegmentGroup>
-        {this.renderImportantTasks()}
-        {this.renderNormalTasks()}
-        {this.renderCompletedTasks()}
-      </SegmentGroup>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <SegmentGroup>
+          {this.renderImportantTasks()}
+          {this.renderNormalTasks()}
+          {this.renderCompletedTasks()}
+        </SegmentGroup>
+      </DragDropContext>
     );
   }
 }

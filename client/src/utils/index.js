@@ -1,4 +1,4 @@
-import { toggleStateChange, contentChange } from "./state-handle";
+import { toggleStateChange, contentChange, orderChange } from "./state-handle";
 import {
   getNormalTask,
   getCompletedTask,
@@ -12,6 +12,7 @@ export {
   getImportantTask,
   toggleStateChange,
   contentChange,
+  orderChange,
   arrayToObject,
   getTaskFromId
 };
