@@ -2,17 +2,23 @@ import React, { Component } from "react";
 import { SegmentGroup } from "semantic-ui-react";
 import TaskList from "./TaskList.react";
 import { Loading } from "../common";
-import { getTasks, completeTask, importantTask } from "../../services/task";
+import {
+  getTasks,
+  completeTask,
+  importantTask,
+  updateTask
+} from "../../services/task";
 import {
   getNormalTask,
   getCompletedTask,
-  getImportantTask
-} from "../../utils/task-filter";
-import { toggleStateChange } from "../../utils/utils";
+  getImportantTask,
+  toggleStateChange,
+  contentChange
+} from "../../utils";
 
 export default class TaskContainer extends Component {
   state = {
-    tasks: [],
+    tasks: {},
     loading: true
   };
 
@@ -26,8 +32,9 @@ export default class TaskContainer extends Component {
     this.setState({ tasks }, async () => importantTask(taskId));
   };
 
-  onContentChange = (e, taskId) => {
-    console.log(`change to ${e.target.value} for ${taskId}`);
+  onContentSave = async (taskId, content) => {
+    const tasks = contentChange(this.state.tasks, taskId)(content);
+    this.setState({ tasks }, async () => await updateTask(taskId, content));
   };
 
   onCompleteTask = async taskId => {
@@ -39,7 +46,7 @@ export default class TaskContainer extends Component {
     const tasks = getImportantTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
-        titleColor='red'
+        titleColor="red"
         title={"Important"}
         tasks={tasks}
         onImportantTask={this.onImportantTask}
@@ -55,6 +62,7 @@ export default class TaskContainer extends Component {
         tasks={tasks}
         onImportantTask={this.onImportantTask}
         onCompleteTask={this.onCompleteTask}
+        onContentSave={this.onContentSave}
       />
     ) : null;
   };
@@ -63,7 +71,7 @@ export default class TaskContainer extends Component {
     const tasks = getCompletedTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
-        titleColor='teal'
+        titleColor="teal"
         title={"Completed"}
         tasks={tasks}
         onCompleteTask={this.onCompleteTask}
