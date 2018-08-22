@@ -4,7 +4,7 @@ exports.init = ({ mongodbUri }) => (app) => {
   mongoose.connect(mongodbUri, { useNewUrlParser: true })
   const db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
-  db.once('open', function () {
+  db.once('open', () => {
     console.log('MongoDB connected!')
     app()
   })

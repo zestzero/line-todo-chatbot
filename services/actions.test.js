@@ -8,15 +8,15 @@ const { DATE_FORMAT, ERROR_MSG } = require('../utils/constants')
 // 2. task : today : time e.g Finsh writing shopping list : today : 15:30
 // 3. task : tomorrow : time e.g Watch movie : tomorrow : 18:00
 
-describe('Action', function () {
-  describe('parseAction', function () {
-    it('should return error from given invalid input', function () {
+describe('Action', () => {
+  describe('parseAction', () => {
+    it('should return error from given invalid input', () => {
       const actual = parseAction('Buy milk : 3-5-18 : 13:00')
 
       expect(actual.error).to.equal(ERROR_MSG.ACTION.INVALID)
     })
 
-    it('should return correct action from given input', function () {
+    it('should return correct action from given input', () => {
       const actual = parseAction('Buy milk : 3/5/18 : 13:00')
 
       expect(actual.content).to.equal('Buy milk')
@@ -24,7 +24,7 @@ describe('Action', function () {
       expect(actual.time).to.equal('13:00')
     })
 
-    it('should return correct action from given input with date as `today`', function () {
+    it('should return correct action from given input with date as `today`', () => {
       const actual = parseAction('Finsh writing shopping list : today : 15:30')
 
       expect(actual.content).to.equal('Finsh writing shopping list')
@@ -32,7 +32,7 @@ describe('Action', function () {
       expect(actual.time).to.equal('15:30')
     })
 
-    it('should return correct action from given input with date as `tomorrow`', function () {
+    it('should return correct action from given input with date as `tomorrow`', () => {
       const actual = parseAction('Watch movie : tomorrow : 18:00')
 
       expect(actual.content).to.equal('Watch movie')
@@ -40,7 +40,7 @@ describe('Action', function () {
       expect(actual.time).to.equal('18:00')
     })
 
-    it('should return correct action from given input without time', function () {
+    it('should return correct action from given input without time', () => {
       const actual = parseAction('Read book : tomorrow')
 
       expect(actual.content).to.equal('Read book')

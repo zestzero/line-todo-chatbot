@@ -1,8 +1,7 @@
-const { parseAction } = require('./actions')
+const { parseAction, isEditMode } = require('./actions')
 const { createTask } = require('./task')
 
 // Ref URL: https://developers.line.me/en/reference/messaging-api/#webhook-event-objects
-// event.source.tyoe && event.source.userId
 
 exports.getEventHandler = (client) => async (event) => {
   if (event.type !== 'message' || event.message.type !== 'text') {
@@ -10,20 +9,20 @@ exports.getEventHandler = (client) => async (event) => {
     return Promise.resolve(null)
   }
 
-  // Parse text to action
-  const { error, content, dateTime } = parseAction(event.message.text)
-  let text = ''
-
-  if (error) {
-    text = error
-  } else {
-    const result = await createTask({ ownerId: event.source.userId, content, dateTime })
-    text = `created task: ${result.id}`
+  if (isEditMode(event.message.text)) {
+    const echo = { type: 'text', text: 'line://app/1601405149-MYeKOvk2' }
+    return client.replyMessage(event.replyToken, echo)
   }
 
-  // create a echoing text message
-  const echo = { type: 'text', text }
+  // Parse text to action
+  const { error, content, dateTime } = parseAction(event.message.text)
 
-  // use reply API
+  if (error) {
+    client.replyMessage(event.replyToken, { type: 'text', text: error })
+  }
+
+  const result = await createTask({ ownerId: event.source.userId, content, dateTime })
+  const text = `created task: ${result.id}`
+  const echo = { type: 'text', text }
   return client.replyMessage(event.replyToken, echo)
 }
