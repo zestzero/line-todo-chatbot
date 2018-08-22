@@ -19,12 +19,18 @@ This project is a part of LINE assignment.
 * [Reactjs](https://github.com/facebook/react) [Reactjs Blog](https://reactjs.org/)
 * [React beautiful dnd](https://github.com/atlassian/react-beautiful-dnd)
 * [React Semantic UI](https://react.semantic-ui.com/)
+* [Get Start with Docker](https://docs.docker.com/get-started/)
 
 ### Development
 
 * Clone repository
 ```bash
 $ git clone https://github.com/zestzero/line-todo-chatbot.git
+```
+
+* Start MongoDB Server
+```bash
+$ docker-compose up
 ```
 
 Using [yarn](https://yarnpkg.com/):
