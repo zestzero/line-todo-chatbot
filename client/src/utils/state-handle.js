@@ -14,8 +14,7 @@ export const contentChange = (tasks, taskId) => content => {
   });
 };
 
-export const orderChange = (tasks, taskId) => orderOffset => {
-  return _.map(tasks, task => {
-    return task.id === taskId ? _.assign({}, task, { order: task.order + orderOffset }) : task;
-  });
+export const indexChange = (taskOrder, selectedTaskId) => index => {
+  const taskOrderExcludeTaskId = _.pull(taskOrder, selectedTaskId);
+  return taskOrderExcludeTaskId.slice(0, index).concat(selectedTaskId).concat(taskOrderExcludeTaskId.slice(index, taskOrderExcludeTaskId.length))
 };

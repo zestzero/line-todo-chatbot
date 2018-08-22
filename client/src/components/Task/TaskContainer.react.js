@@ -14,19 +14,21 @@ import {
   getImportantTask,
   toggleStateChange,
   contentChange,
-  orderChange
+  indexChange
 } from "../../utils";
 import { DragDropContext } from 'react-beautiful-dnd';
 
 export default class TaskContainer extends Component {
   state = {
     tasks: {},
+    taskOrder: [],
     loading: true
   };
 
   async componentDidMount() {
     const tasks = await getTasks(this.props.userId);
-    this.setState({ tasks, loading: false });
+    const taskOrder = getNormalTask(tasks).map(task => task.id)
+    this.setState({ tasks, taskOrder, loading: false });
   }
 
   onImportantTask = taskId => {
@@ -45,11 +47,9 @@ export default class TaskContainer extends Component {
   };
 
   onDragEnd = (param) => {
-    console.log(param);
     if (!param.destination) return;
-    const orderOffset = param.destination.index - param.source.index;
-    const tasks = orderChange(this.state.tasks, param.draggableId)(orderOffset);
-    this.setState({ tasks }); //, async () => updateTask(param.draggableId, { order: }))
+    const taskOrder = indexChange(this.state.taskOrder, param.draggableId)(param.destination.index);
+    this.setState({ taskOrder });
   }
 
   renderImportantTasks = () => {
@@ -68,7 +68,7 @@ export default class TaskContainer extends Component {
   };
 
   renderNormalTasks = () => {
-    const tasks = getNormalTask(this.state.tasks);
+    const tasks = getNormalTask(this.state.tasks, this.state.taskOrder);
     return tasks.length > 0 ? (
       <TaskList
         listId="normal-1"

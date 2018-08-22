@@ -22,7 +22,7 @@ exports.getEventHandler = (client) => async (event) => {
   }
 
   const result = await createTask({ ownerId: event.source.userId, content, date, time })
-  const text = `created task: ${result.id}`
+  const text = `\udbc0\udc41 ${result.title}`
   const echo = { type: 'text', text }
   return client.replyMessage(event.replyToken, echo)
 }

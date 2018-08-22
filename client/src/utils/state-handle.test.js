@@ -1,6 +1,7 @@
 import {
   toggleStateChange,
-  contentChange
+  contentChange,
+  indexChange
 } from "./state-handle";
 
 const MOCK_TASKS = [
@@ -32,7 +33,23 @@ describe("state-handle", () => {
       const tasks = contentChange(MOCK_TASKS, 1)('special');
 
       expect(MOCK_TASKS[0].content).toEqual('normal');
-      expect(tasks[0].content).toEqual('special')
+      expect(tasks[0].content).toEqual('special');
+    })
+  });
+
+  describe("indexChange", () => {
+    it("should return tasks with updated index", () => {
+      const mockTaskOrder = [ '1', '2', '3', '4', '5' ]
+      const result = indexChange(mockTaskOrder, '1')(3);
+
+      expect(result).toEqual([ '2', '3', '4', '1', '5' ]);
+    })
+
+    it("should return tasks with updated index", () => {
+      const mockTaskOrder = [ '1', '2', '3', '4', '5' ]
+      const result = indexChange(mockTaskOrder, '5')(2);
+
+      expect(result).toEqual([ '1', '2', '5', '3', '4' ]);
     })
   });
 });
