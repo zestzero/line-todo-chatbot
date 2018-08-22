@@ -3,9 +3,16 @@ This project is a part of LINE assignment.
 
 ## Getting Started
 
+### DEMO
+
+* Add Chat bot as a friend
 ![LINE Chat bot QR code](https://user-images.githubusercontent.com/3611918/44468662-ecc8a600-a64f-11e8-93eb-199ca3d9d427.png)
 
-### DEMO
+* Add todo by using predefined format
+```
+CONTENT : DATE : TIME
+```
+Example: `Interview at Line : tomorrow : 15:00`
 
 ![aug-22-2561 21-14-57](https://user-images.githubusercontent.com/3611918/44468908-82fccc00-a650-11e8-982f-8830c58c536d.gif)
 
