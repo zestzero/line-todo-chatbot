@@ -41,10 +41,8 @@ export default class LIFFProvider extends React.Component {
 
   initialize = () => {
     liff.init(async (data) => {
-      this.props.debug(JSON.stringify(data)) // get debugging info
       this.getProfileHandler()
     }, (err) => {
-      this.props.debug(JSON.stringify(err)) // get debugging info
       this.errorHandler(err)
     });
   }

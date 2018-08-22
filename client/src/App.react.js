@@ -5,12 +5,6 @@ import { ErrorMessage } from './components/common';
 import './App.css';
 
 class App extends Component {
-  state = {
-    DEBUG_LOG: ''
-  }
-  getLog = (text) => {
-    this.setState(prevState => ({ DEBUG_LOG: prevState.DEBUG_LOG.concat(text) }))
-  }
   render() {
     return (
       <div className="App">
@@ -23,11 +17,9 @@ class App extends Component {
           <LIFFProvider
             render={(userId) => <TaskContainer userId={userId} />}
             error={(error) => <ErrorMessage header={error.message} />}
-            debug={(text) => this.getLog(text)}
           />
           : <TaskContainer userId={'123412312341231321'} />
         }
-        <div className="Debugger">{this.state.DEBUG_LOG}</div>
       </div>
     );
   }
