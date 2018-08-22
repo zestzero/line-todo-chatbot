@@ -33,7 +33,8 @@ export default class TaskContainer extends Component {
 
   onImportantTask = taskId => {
     const tasks = toggleStateChange(this.state.tasks, taskId)("important");
-    this.setState({ tasks }, async () => importantTask(taskId));
+    const taskOrder = getNormalTask(tasks).map(task => task.id)
+    this.setState({ tasks, taskOrder }, async () => importantTask(taskId));
   };
 
   onContentSave = async (taskId, content) => {
@@ -43,7 +44,8 @@ export default class TaskContainer extends Component {
 
   onCompleteTask = async taskId => {
     const tasks = toggleStateChange(this.state.tasks, taskId)("completed");
-    this.setState({ tasks }, async () => completeTask(taskId));
+    const taskOrder = getNormalTask(tasks).map(task => task.id)
+    this.setState({ tasks, taskOrder }, async () => completeTask(taskId));
   };
 
   onDragEnd = (param) => {
