@@ -1,9 +1,7 @@
-const express = require('express')
 const line = require('@line/bot-sdk')
 const bodyParser = require('body-parser')
 const { getEventHandler } = require('../services/event')
-const Apis = require('./apis')
-const path = require('path')
+const TaskApis = require('./task-apis')
 
 const config = {
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
@@ -25,5 +23,5 @@ exports.init = (app) => {
   })
 
   app.use(bodyParser.json())
-  app.use('/api', Apis)
+  app.use('/api', TaskApis)
 }

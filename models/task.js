@@ -9,12 +9,16 @@ exports.updateTask = async ({ taskId }, updated) => {
   return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { ...updated } }, { new: true })
 }
 
+exports.importantTask = async ({ taskId, important = false }) => {
+  return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { important } }, { new: true })
+}
+
 exports.deleteTask = async ({ taskId }) => {
   return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { deleted: true } }, { new: true })
 }
 
-exports.completeTask = async ({ taskId }) => {
-  return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { completed: true } }, { new: true })
+exports.completeTask = async ({ taskId, completed = false }) => {
+  return TaskSchema.findOneAndUpdate({ _id: taskId }, { $set: { completed } }, { new: true })
 }
 
 exports.findTaskById = async ({ taskId }) => {
@@ -24,7 +28,6 @@ exports.findTaskById = async ({ taskId }) => {
 exports.findTasksByOwnerId = async ({ ownerId }) => {
   return TaskSchema.find({
     owner_id: ownerId,
-    deleted: false,
-    completed: false
+    deleted: false
   }).sort({ created_date: 1 }).lean()
 }

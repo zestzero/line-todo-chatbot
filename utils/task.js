@@ -4,6 +4,7 @@ exports.getCompactTask = (task) => {
     content: task.content,
     ownerId: task.owner_id,
     order: task.order,
+    important: task.important,
     completed: task.completed,
     deleted: task.deleted,
     createdDate: task.created_date,

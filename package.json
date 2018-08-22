@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "npx nodemon --config nodemon.json app.js",
-    "test": "npx mocha \"./{,!(node_modules)/**/}*.test.js\"",
+    "test": "npx mocha \"./{,!(node_modules|client)/**/}*.test.js\"",
     "start": "node app.js"
   },
   "dependencies": {

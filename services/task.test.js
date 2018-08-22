@@ -4,12 +4,12 @@ const expect = chai.expect
 const TaskService = require('./task')
 const { dbUp, reset, dbDown } = require('../utils/db-helper')
 
-describe('TaskService Tests', function () {
+describe('TaskService Tests', () => {
   before(dbUp)
   beforeEach(reset)
 
-  describe('createTask', function () {
-    it('should create a task and return create task correctly', async function () {
+  describe('createTask', () => {
+    it('should create a task and return create task correctly', async () => {
       const task = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task1',
@@ -22,7 +22,7 @@ describe('TaskService Tests', function () {
       expect(actualTask.content).to.equal('task1')
     })
 
-    it('should create a task with order correctly', async function () {
+    it('should create a task with order correctly', async () => {
       const taskOne = await TaskService.createTask({
         ownerId: 'owner1',
         content: 'task1',
@@ -50,8 +50,8 @@ describe('TaskService Tests', function () {
     })
   })
 
-  describe('updateTask', function () {
-    it('should return error when update non-existing task', async function () {
+  describe('updateTask', () => {
+    it('should return error when update non-existing task', async () => {
       await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.updateTask({
         taskId: '53cb6b9b4f4ddef1ad47f943',
@@ -64,7 +64,7 @@ describe('TaskService Tests', function () {
       expect(updatedTask.error).to.not.equal(undefined)
     })
 
-    it('should update a task and return updated task correctly', async function () {
+    it('should update a task and return updated task correctly', async () => {
       const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.updateTask({
         taskId: task.id,
@@ -79,7 +79,7 @@ describe('TaskService Tests', function () {
       expect(moment(updatedTask.dateTime).format('DD/MM/YY HH:mm')).to.equal('08/02/18 10:00')
     })
 
-    it('should update only order of a task', async function () {
+    it('should update only order of a task', async () => {
       const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.updateTask({
         taskId: task.id,
@@ -91,8 +91,8 @@ describe('TaskService Tests', function () {
     })
   })
 
-  describe('deleteTask', function () {
-    it('should return error when delete non-existing task', async function () {
+  describe('deleteTask', () => {
+    it('should return error when delete non-existing task', async () => {
       await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.deleteTask({
         taskId: '53cb6b9b4f4ddef1ad47f943'
@@ -101,7 +101,7 @@ describe('TaskService Tests', function () {
       expect(updatedTask.error).to.not.equal(undefined)
     })
 
-    it('should delete a task and return deleted task correctly', async function () {
+    it('should delete a task and return deleted task correctly', async () => {
       const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.deleteTask({ taskId: task.id })
 
@@ -109,8 +109,8 @@ describe('TaskService Tests', function () {
     })
   })
 
-  describe('completeTask', function () {
-    it('should return error when complete non-existing task', async function () {
+  describe('completeTask', () => {
+    it('should return error when complete non-existing task', async () => {
       await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       const updatedTask = await TaskService.completeTask({
         taskId: '53cb6b9b4f4ddef1ad47f943'
@@ -119,7 +119,7 @@ describe('TaskService Tests', function () {
       expect(updatedTask.error).to.not.equal(undefined)
     })
 
-    it('should complete a task and return completed task correctly', async function () {
+    it('should complete a task and return completed task correctly', async () => {
       const task = await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       await TaskService.completeTask({ taskId: task.id })
       const updatedTask = await TaskService.getTaskById({ taskId: task.id })
@@ -128,8 +128,8 @@ describe('TaskService Tests', function () {
     })
   })
 
-  describe('getTasks', function () {
-    it('should return tasks from ownerId correctly', async function () {
+  describe('getTasks', () => {
+    it('should return tasks from ownerId correctly', async () => {
       await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       await TaskService.createTask({ ownerId: 'owner1', content: 'task2' })
       await TaskService.createTask({ ownerId: 'owner1', content: 'task3' })
@@ -139,7 +139,7 @@ describe('TaskService Tests', function () {
       expect(tasks.length).to.equal(3)
     })
 
-    it('should return only non-deleted tasks', async function () {
+    it('should return only non-deleted tasks', async () => {
       await TaskService.createTask({ ownerId: 'owner1', content: 'task1' })
       await TaskService.createTask({ ownerId: 'owner1', content: 'task2' })
 
