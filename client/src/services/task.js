@@ -13,4 +13,8 @@ const importantTask = async (taskId) => {
   return axios.post('/api/task.important', { task_id: taskId })
 }
 
-export { getTasks, completeTask, importantTask }
+const updateTask = async (taskId, { content, order }) => {
+  return axios.post('/api/task.update', { task_id: taskId, content, order })
+}
+
+export { getTasks, completeTask, importantTask, updateTask }

@@ -15,14 +15,14 @@ exports.getEventHandler = (client) => async (event) => {
   }
 
   // Parse text to action
-  const { error, content, dateTime } = parseAction(event.message.text)
+  const { error, content, date, time } = parseAction(event.message.text)
 
   if (error) {
     client.replyMessage(event.replyToken, { type: 'text', text: error })
   }
 
-  const result = await createTask({ ownerId: event.source.userId, content, dateTime })
-  const text = `created task: ${result.id}`
+  const result = await createTask({ ownerId: event.source.userId, content, date, time })
+  const text = `\udbc0\udc41 ${result.title}`
   const echo = { type: 'text', text }
   return client.replyMessage(event.replyToken, echo)
 }

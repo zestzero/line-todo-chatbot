@@ -32,6 +32,7 @@ $ cd client && yarn && yarn start
 ```
 
 ### Testing
+
 * Server
 ``` bash
 $ yarn test
@@ -41,6 +42,17 @@ $ yarn test
 $ cd client && yarn test
 ```
 
+### Deployment
+
+Using [heroku container](https://devcenter.heroku.com/articles/container-registry-and-runtime) to deploy the container using Dockerfile.
+
+``` bash
+$ heroku container:login
+$ heroku create
+$ heroku container:push web
+$ heroku container:release web
+$ heroku open
+```
 
 ### Documentation
 
@@ -53,10 +65,11 @@ $ cd client && yarn test
 * [How to run create-react-app inside Nodejs](https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0)
 
 
-### LINE Messaging API References
+### Future works
 
-* LINE Developers - Messaging API
-  * [Messaging API](https://developers.line.me/messaging-api/overview)
+* Deployment using CI tools (with automation test).
+* Add JWT to verify incoming request using `access_token`.
+* Improve UI to be more user friendly.
 
 ## Requirements
 

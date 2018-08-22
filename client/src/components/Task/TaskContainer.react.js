@@ -2,23 +2,33 @@ import React, { Component } from "react";
 import { SegmentGroup } from "semantic-ui-react";
 import TaskList from "./TaskList.react";
 import { Loading } from "../common";
-import { getTasks, completeTask, importantTask } from "../../services/task";
+import {
+  getTasks,
+  completeTask,
+  importantTask,
+  updateTask,
+} from "../../services/task";
 import {
   getNormalTask,
   getCompletedTask,
-  getImportantTask
-} from "../../utils/task-filter";
-import { toggleStateChange } from "../../utils/utils";
+  getImportantTask,
+  toggleStateChange,
+  contentChange,
+  indexChange
+} from "../../utils";
+import { DragDropContext } from 'react-beautiful-dnd';
 
 export default class TaskContainer extends Component {
   state = {
-    tasks: [],
+    tasks: {},
+    taskOrder: [],
     loading: true
   };
 
   async componentDidMount() {
     const tasks = await getTasks(this.props.userId);
-    this.setState({ tasks, loading: false });
+    const taskOrder = getNormalTask(tasks).map(task => task.id)
+    this.setState({ tasks, taskOrder, loading: false });
   }
 
   onImportantTask = taskId => {
@@ -26,8 +36,9 @@ export default class TaskContainer extends Component {
     this.setState({ tasks }, async () => importantTask(taskId));
   };
 
-  onContentChange = (e, taskId) => {
-    console.log(`change to ${e.target.value} for ${taskId}`);
+  onContentSave = async (taskId, content) => {
+    const tasks = contentChange(this.state.tasks, taskId)(content);
+    this.setState({ tasks }, async () => await updateTask(taskId, content));
   };
 
   onCompleteTask = async taskId => {
@@ -35,11 +46,19 @@ export default class TaskContainer extends Component {
     this.setState({ tasks }, async () => completeTask(taskId));
   };
 
+  onDragEnd = (param) => {
+    if (!param.destination) return;
+    const taskOrder = indexChange(this.state.taskOrder, param.draggableId)(param.destination.index);
+    this.setState({ taskOrder });
+  }
+
   renderImportantTasks = () => {
     const tasks = getImportantTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
-        titleColor='red'
+        listId="important-1"
+        isDropDisabled
+        titleColor="red"
         title={"Important"}
         tasks={tasks}
         onImportantTask={this.onImportantTask}
@@ -49,12 +68,14 @@ export default class TaskContainer extends Component {
   };
 
   renderNormalTasks = () => {
-    const tasks = getNormalTask(this.state.tasks);
+    const tasks = getNormalTask(this.state.tasks, this.state.taskOrder);
     return tasks.length > 0 ? (
       <TaskList
+        listId="normal-1"
         tasks={tasks}
         onImportantTask={this.onImportantTask}
         onCompleteTask={this.onCompleteTask}
+        onContentSave={this.onContentSave}
       />
     ) : null;
   };
@@ -63,7 +84,9 @@ export default class TaskContainer extends Component {
     const tasks = getCompletedTask(this.state.tasks);
     return tasks.length > 0 ? (
       <TaskList
-        titleColor='teal'
+        listId="completed-1"
+        isDropDisabled
+        titleColor="teal"
         title={"Completed"}
         tasks={tasks}
         onCompleteTask={this.onCompleteTask}
@@ -75,11 +98,13 @@ export default class TaskContainer extends Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <SegmentGroup>
-        {this.renderImportantTasks()}
-        {this.renderNormalTasks()}
-        {this.renderCompletedTasks()}
-      </SegmentGroup>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <SegmentGroup>
+          {this.renderImportantTasks()}
+          {this.renderNormalTasks()}
+          {this.renderCompletedTasks()}
+        </SegmentGroup>
+      </DragDropContext>
     );
   }
 }

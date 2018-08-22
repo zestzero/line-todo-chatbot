@@ -1,12 +1,13 @@
 import _ from "lodash";
 
-export const toggleStateChange = (tasks, taskId) => property => {
-  return _.map(
-    tasks,
-    task => {
-      return task.id === taskId
-        ? _.assign({}, task, { [property]: !_.get(task, property) })
-        : task
-    }
+export const arrayToObject = array =>
+  _.reduce(
+    array,
+    (obj, item) => {
+      obj[item.id] = item;
+      return obj;
+    },
+    {}
   );
-};
+
+export const getTaskFromId = (tasks, taskId) => _.find(tasks, ['id', taskId]);
