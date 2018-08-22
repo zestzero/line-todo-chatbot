@@ -1,11 +1,13 @@
+import _ from 'lodash';
+
 export const getNormalTask = (tasks) => {
-  return tasks.map(task => !task.important && !task.completed)
+  return _.filter(tasks, task => !task.important && !task.completed)
 }
 
 export const getCompletedTask = (tasks) => {
-  return tasks
+  return  _.filter(tasks, task => task.completed)
 }
 
 export const getImportantTask = (tasks) => {
-  return tasks
+  return  _.filter(tasks, task => task.important)
 }

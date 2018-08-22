@@ -5,4 +5,12 @@ const getTasks = async (ownerId) => {
   return promise.data
 }
 
-export { getTasks }
+const completeTask = async (taskId) => {
+  return axios.post('/api/task.complete', { task_id: taskId })
+}
+
+const importantTask = async (taskId) => {
+  return axios.post('/api/task.important', { task_id: taskId })
+}
+
+export { getTasks, completeTask, importantTask }
